@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -63,27 +64,24 @@ public class FlightsRepository {
 
     private List<Flight> flightsFound(SearchFlightRequest searchFlightsRequest) {
 
-        List<Flight> foundList = new ArrayList<>();
-
         if (sameSearchFlightFromTo(searchFlightsRequest)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        for (Flight thisFlight : flightList) {
-            if (searchedFlightsAreEqual(searchFlightsRequest, thisFlight)) {
-                foundList.add(thisFlight);
-            }
-        }
-        return foundList;
+        return flightList
+                .stream()
+                .filter(flight -> flight.getFrom().getAirport().equals(searchFlightsRequest.getFrom())
+                                && flight.getTo().getAirport().equals(searchFlightsRequest.getTo())
+                                && flight.getDepartureTime().toLocalDate().equals(searchFlightsRequest.getDepartureDate()))
+                .collect(Collectors.toList());
     }
 
-
-    private synchronized boolean sameFlightFromTo(Flight flight) {
+    private boolean sameFlightFromTo(Flight flight) {
         return flight.getFrom().equals(flight.getTo());
     }
 
-    private synchronized boolean sameSearchFlightFromTo(SearchFlightRequest request) {
-        return request.getFrom().equals(request.getTo());
+    private boolean sameSearchFlightFromTo(SearchFlightRequest searchFlightsRequest) {
+        return searchFlightsRequest.getFrom().equals(searchFlightsRequest.getTo());
     }
 
     private boolean correctDateFormat(Flight flight) {
@@ -102,11 +100,5 @@ public class FlightsRepository {
                                 && thisFlight.getCarrier().equals(flight.getCarrier())
                                 && thisFlight.getDepartureTime().equals(flight.getDepartureTime())
                                 && thisFlight.getArrivalTime().equals(flight.getArrivalTime()));
-    }
-
-    private boolean searchedFlightsAreEqual(SearchFlightRequest searchFlightRequest, Flight flight) {
-        return flight.getFrom().getAirport().equals(searchFlightRequest.getFrom())
-                && flight.getTo().getAirport().equals(searchFlightRequest.getTo())
-                && flight.getDepartureTime().toLocalDate().equals(searchFlightRequest.getDepartureDate());
     }
 }
