@@ -1,4 +1,4 @@
-package io.codelex.flightplanner.Security;
+package io.codelex.flightplanner.security;
 
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

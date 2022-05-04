@@ -1,8 +1,7 @@
-package io.codelex.flightplanner.Service;
+package io.codelex.flightplanner.service;
 
-import io.codelex.flightplanner.Modules.*;
-import io.codelex.flightplanner.Repository.FlightsRepository;
-import org.springframework.http.ResponseEntity;
+import io.codelex.flightplanner.modules.*;
+import io.codelex.flightplanner.repository.FlightsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

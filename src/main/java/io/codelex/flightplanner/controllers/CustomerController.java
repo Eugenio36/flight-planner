@@ -1,11 +1,10 @@
-package io.codelex.flightplanner.Controllers;
+package io.codelex.flightplanner.controllers;
 
-import io.codelex.flightplanner.Modules.Airport;
-import io.codelex.flightplanner.Modules.Flight;
-import io.codelex.flightplanner.Modules.PageResult;
-import io.codelex.flightplanner.Modules.SearchFlightRequest;
-import io.codelex.flightplanner.Service.FlightsService;
-import org.springframework.http.ResponseEntity;
+import io.codelex.flightplanner.modules.Airport;
+import io.codelex.flightplanner.modules.Flight;
+import io.codelex.flightplanner.modules.PageResult;
+import io.codelex.flightplanner.modules.SearchFlightRequest;
+import io.codelex.flightplanner.service.FlightsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

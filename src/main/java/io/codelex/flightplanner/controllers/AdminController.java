@@ -1,17 +1,16 @@
-package io.codelex.flightplanner.Controllers;
+package io.codelex.flightplanner.controllers;
 
-import io.codelex.flightplanner.Modules.AddFlightRequest;
-import io.codelex.flightplanner.Modules.Flight;
-import io.codelex.flightplanner.Service.FlightsService;
+import io.codelex.flightplanner.modules.AddFlightRequest;
+import io.codelex.flightplanner.modules.Flight;
+import io.codelex.flightplanner.service.FlightsService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/admin-api")
+@RequestMapping("/admin-api/flights")
 public class AdminController {
 
     private final FlightsService flightsService;
@@ -20,19 +19,19 @@ public class AdminController {
         this.flightsService = flightsService;
     }
 
-    @PutMapping("/flights")
+    @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public synchronized Flight addFlight(@Valid @RequestBody AddFlightRequest flightRequest) {
         return flightsService.addFlight(flightRequest);
     }
 
-    @DeleteMapping ("/flights/{id}")
+    @DeleteMapping ("/{id}")
     public synchronized void deleteFlight(@PathVariable int id) {
         flightsService.deleteFlight(id);
     }
 
-    @GetMapping ("/flights/{id}")
-    public synchronized Flight fetchFlight(@PathVariable int id) {
+    @GetMapping ("/{id}")
+    public Flight fetchFlight(@PathVariable int id) {
         return flightsService.fetchFlight(id);
     }
 
