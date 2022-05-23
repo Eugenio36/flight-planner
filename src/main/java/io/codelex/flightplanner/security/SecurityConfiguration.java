@@ -23,6 +23,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .httpBasic();
-
+        http.headers().frameOptions().sameOrigin();
     }
 }

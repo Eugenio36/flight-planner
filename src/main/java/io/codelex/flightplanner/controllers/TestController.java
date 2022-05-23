@@ -1,6 +1,5 @@
 package io.codelex.flightplanner.controllers;
 
-
 import io.codelex.flightplanner.service.FlightsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,5 +18,6 @@ public class TestController {
     public void clearFlight() {
         flightsService.clearFlight();
     }
+
 }
 
