@@ -23,12 +23,11 @@ public class FlightsRepository {
         flightList.removeIf(flight -> flight.getId() == id);
     }
 
-    public Flight addFlight(AddFlightRequest flightRequest) {
-        Flight flight = new Flight(idCount, flightRequest);
+    public Flight addFlight(Flight flight) {
 
-        if (sameFlightFromTo(flight) || !correctDateFormat(flight)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        } else if (!sameFlightInList(flight)) {
+        flight.setId(idCount);
+
+        if (!sameFlightInList(flight)) {
             idCount++;
             flightList.add(flight);
             return flight;
@@ -64,28 +63,12 @@ public class FlightsRepository {
 
     private List<Flight> flightsFound(SearchFlightRequest searchFlightsRequest) {
 
-        if (sameSearchFlightFromTo(searchFlightsRequest)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-
         return flightList
                 .stream()
                 .filter(flight -> flight.getFrom().getAirport().equals(searchFlightsRequest.getFrom())
                                 && flight.getTo().getAirport().equals(searchFlightsRequest.getTo())
                                 && flight.getDepartureTime().toLocalDate().equals(searchFlightsRequest.getDepartureDate()))
                 .collect(Collectors.toList());
-    }
-
-    private boolean sameFlightFromTo(Flight flight) {
-        return flight.getFrom().equals(flight.getTo());
-    }
-
-    private boolean sameSearchFlightFromTo(SearchFlightRequest searchFlightsRequest) {
-        return searchFlightsRequest.getFrom().equals(searchFlightsRequest.getTo());
-    }
-
-    private boolean correctDateFormat(Flight flight) {
-        return flight.getDepartureTime().isBefore(flight.getArrivalTime());
     }
 
     private String formatLowerTrim(String text) {
